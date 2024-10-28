@@ -1,0 +1,47 @@
+@startuml ドメイン
+enum StoneStatus {
+    NONE
+    BLACK
+    WIHTE
+}
+enum Turn {
+    ONE
+    TWO
+}
+
+class Game {
+    -Board Board
+    -Player p1
+    -Player p2
+    -Turn turn
+    +play(int x, int y)
+    +Turn getTurn()
+}
+class Board {
+    -StoneStatus[][] stoneMap
+    +void reset()
+    boolean reverse(int x, int y, StoneStatus color)
+    StoneStatus getSquare(int x, int y)
+}
+interface Player {
+    boolean put(Board board, int x, int y)
+}
+class Human {
+    -Board board
+    -StoneStatus myColor
+    -Turn myTurn
+    +boolean put(Board board, int x, int y)
+}
+' class AI {}
+
+Player <|--- Human
+' Player <|-- AI
+Player --* Game: use
+Player ..> Board: dependent
+Board --* Game: use
+
+StoneStatus --o Board
+StoneStatus --- Human
+Turn --- Human
+Turn ---- Game
+@enduml

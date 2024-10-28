@@ -1,0 +1,33 @@
+@startuml オセロ
+' left to right direction
+actor "Player1" as owner
+actor "Player2" as challenger
+
+rectangle Enter {
+  usecase "ルームIDを取得" as getId
+  usecase "ルームIDを共有" as shareId
+  usecase "ルームIDを受け取る" as recieveId
+  (recieveId) ..> (入室) : include
+  (getId) ..> (入室) : include
+}
+rectangle Play {
+  usecase "石を置く" as putStone
+  usecase "リセットする" as reset
+  usecase "降参する" as surrender
+  usecase "ゲームを終了する" as endGame
+}
+
+owner --up-> getId
+owner --up-> shareId
+challenger --up-> recieveId
+
+owner -down-> putStone
+challenger -down-> putStone
+owner -down-> reset
+challenger -down-> reset
+owner -down-> surrender
+challenger -down-> surrender
+owner -down-> endGame
+challenger -down-> endGame
+
+@enduml

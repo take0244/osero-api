@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: DolkMd Osero
+  version: 1.0.0
+paths:
+  '/rooms/id':
+    get:
+      tags:
+        - "Osero"
+      operationId: getRoomId
+      responses:
+        200:
+          description: OK
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/RoomInfo'
+  '/rooms/id/{id}':
+    get:
+      tags:
+        - "Osero"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      operationId: getUserId
+      responses:
+        200:
+          description: OK
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/RoomInfo'
+  '/rooms/id/{id}/{userId}':
+    put:
+      tags:
+        - "Osero"
+      operationId: putStone
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Point'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Board'
+
+components:
+  schemas:
+    RoomInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: string
+        expireUnixTime:
+          type: integer
+      example:
+        id: 515
+        userId: djkasniutaudsakgnauignenca
+        expireUnixTime: 1662191850
+      required:
+        - "id"
+        - "userId"
+        - "expireUnixTime"
+    Board:
+      type: array
+      items:
+        type: array
+        items:
+          $ref: '#/components/schemas/Square'
+    Square:
+      type: string
+      enum: [NONE, BLACK, WHITE]
+    Point:
+      type: object
+      properties:
+        x:
+          type: integer
+        y:
+          type: integer
+    
